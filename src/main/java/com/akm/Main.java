@@ -8,6 +8,7 @@ import com.akm.resource.HelloWorldResource;
 import com.akm.resource.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
+import io.dropwizard.flyway.FlywayBundle;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -21,6 +22,7 @@ public class Main extends Application<MyAppConfiguration> {
     @Override
     public void initialize(Bootstrap<MyAppConfiguration> bootstrap){
         bootstrap.addBundle(hibernateBundle);
+        bootstrap.addBundle(flywayBundle);
     }
 
     @Override
@@ -39,6 +41,13 @@ public class Main extends Application<MyAppConfiguration> {
     }
 
     private final HibernateBundle<MyAppConfiguration> hibernateBundle = new HibernateBundle<MyAppConfiguration>(UserEntity.class) {
+        @Override
+        public PooledDataSourceFactory getDataSourceFactory(MyAppConfiguration configuration) {
+            return configuration.getDatabase();
+        }
+    };
+
+    private final FlywayBundle<MyAppConfiguration> flywayBundle = new FlywayBundle<MyAppConfiguration>() {
         @Override
         public PooledDataSourceFactory getDataSourceFactory(MyAppConfiguration configuration) {
             return configuration.getDatabase();
