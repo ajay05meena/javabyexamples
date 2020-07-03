@@ -41,7 +41,7 @@ public class Main extends Application<MyAppConfiguration> {
     private final HibernateBundle<MyAppConfiguration> hibernateBundle = new HibernateBundle<MyAppConfiguration>(UserEntity.class) {
         @Override
         public PooledDataSourceFactory getDataSourceFactory(MyAppConfiguration configuration) {
-            return configuration.getDataSourceFactory();
+            return configuration.getDatabase();
         }
     };
 }
