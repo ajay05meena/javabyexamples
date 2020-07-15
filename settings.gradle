@@ -1,0 +1,3 @@
+rootProject.name = 'javabyexamples'
+include 'app'
+
